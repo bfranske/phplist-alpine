@@ -6,7 +6,8 @@ This repository contains files used to build and run a copy of the phpList softw
 
 == Building the phpList Docker image
 
-To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t phplist-alpine:3.6.14 .+`
+. To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t phplist-alpine:3.6.14 .+`
+. If you need to remove previously built images and containers all at once use the command `+docker system prune -a+` but be careful as this will remove everything (not just phplist-alpine)!
 
 == Setting Up the phpList Docker 
 
@@ -21,7 +22,9 @@ NOTE: If you want to get any settings from your `+.env+` file instead of storing
 
 == Running the phpList Docker
 
-. To run a test copy of the software use the `+docker compose -f phplist.yml up+` command.
+. To run a test copy of the software use the `+docker compose -f phplist.yml up+` command. You can quit this with a CTRL+C
+. To run a copy of the software in the background use the `+docker compose -f phplist.yml up --detach+` command.
+. To stop a background copy of the software use the `+docker compose -f phplist.yml down+` command.
 
 == Configuration Notes
 
