@@ -13,21 +13,11 @@ services:
        MYSQL_USER: ${MYSQL_USER}
        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
-   mailhog:
-     container_name: phplist_mailhog
-     image: mailhog/mailhog:latest
-     ports:
-       - 8025:8025
-     environment:
-       MH_SMTP_BIND_ADDR: 0.0.0.0:25
-
    phplist:
-     container_name: bentest
+     container_name: alpine-phplist
      depends_on:
        - dbhost
-       - mailhog
-     #image: phplist/phplist:${PHPLIST_VERSION:-latest}
-     image: bentest:latest
+     image: alpine-phplist:3.6.14
      volumes:
        - ${IMAGES:-images}:/var/www/phpList3/public_html/images
      ports:
@@ -43,7 +33,7 @@ services:
        ADMIN_EMAIL: ${PHPLIST_ADMINEMAIL}
        HOSTNAME: ${HOSTNAME}
        PORT: ${PORT}
-       MAILHOST: mailhog
+       MAILHOST: 
 
 volumes:
     dbhost_data:

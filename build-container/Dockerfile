@@ -37,7 +37,7 @@ RUN rm -rf /phplist-3.6.14/
 
 RUN cp /var/www/phpList3/docker/security.conf /etc/apache2/conf.d/
 COPY docker/alpine-apache-phplist.conf /etc/apache2/conf.d/
-RUN cp /var/www/phpList3/docker/docker-phplist-config-live.php /etc/phplist/config.php
+COPY docker/alpine-phplist-config.php /etc/phplist/config.php
 RUN cat /var/www/phpList3/docker/phplist-crontab >> /etc/crontabs/root
 
 RUN mkdir -p /var/tmp/phplistupdate && chown apache /var/tmp/phplistupdate

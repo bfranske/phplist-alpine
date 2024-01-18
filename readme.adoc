@@ -35,7 +35,9 @@ NOTE: Not all other settings in the `+.env+` file are currently used by this con
 * Add support for changing PHP upload and memory size from outside the container
 * Auto build and push to Docker hub as Github workflow
 * Add support for mapping of the phplist config, images, and plugins volumes from the .env file
+* Add configuration of bounce processng mailbox into the .env file
+* Store database on the host system
 
 == Related
 
-This is based on the https://github.com/phpList/phplist-docker/[phplist-docker] project and the Dockerfile of the https://github.com/phpList/phplist3[phpList] project. These are based on a Debian container though and are quite large and heavy.
+This is based on the https://github.com/phpList/phplist-docker/[phplist-docker] project and the Dockerfile of the https://github.com/phpList/phplist3[phpList] project. These are based on a Debian container though and are quite large and heavy. These are also designed primarily for development work use while phplist-alpine is designed for production use.
