@@ -20,6 +20,7 @@ RUN apk --no-cache --update \
     php83-simplexml \
     php83-session \
     php83-curl \
+    php83-xsl \
     bash \
     wget \
     && mkdir -p /var/www/phpList3
@@ -38,7 +39,8 @@ RUN rm -rf /phplist-3.6.14/
 RUN cp /var/www/phpList3/docker/security.conf /etc/apache2/conf.d/
 COPY docker/alpine-apache-phplist.conf /etc/apache2/conf.d/
 COPY docker/alpine-phplist-config.php /etc/phplist/config.php
-RUN cat /var/www/phpList3/docker/phplist-crontab >> /etc/crontabs/root
+COPY docker/alpine-phplist-crontab /alpine-phplist-crontab
+RUN cat /alpine-phplist-crontab >> /etc/crontabs/root
 
 RUN mkdir -p /var/tmp/phplistupdate && chown apache /var/tmp/phplistupdate
 

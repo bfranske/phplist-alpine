@@ -34,8 +34,18 @@ if [[ "$UNCONNECTED" ]]; then
     exit;
 fi
 
-/usr/bin/phplist -pinitialise
-/usr/bin/phplist -pinitlanguages
+if [[ "$PHPLISTINIT" ]]; then
+    /usr/bin/phplist -pinitialise
+    /usr/bin/phplist -pinitlanguages
+fi
+
+## setup API access if enabled by environment variable, this only works after phplist setup has been done/initialization
+if [[ "$APIACCESS" ]]; then
+    sed '/view: { view_response_listener: { enabled: /s/false/true/g' /var/www/phpList3/public_html/lists/base/config/config_modules.yml
+    rm -rf /var/www/phpList3/public_html/lists/base/var/cache
+fi
+
+touch /entrypointhasrunonce
 
 crond
 echo $(phplist --version) READY

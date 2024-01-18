@@ -6,23 +6,22 @@ This repository contains files used to build and run a copy of the phpList softw
 
 == Building the phpList Docker image
 
-To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t alpine-phplist:3.6.14 .+`
+To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t phplist-alpine:3.6.14 .+`
 
 == Setting Up the phpList Docker 
 
 . Use the  `+cp .env-dist .env+` command to create a working copy of the environement setup file.
 . Edit the `+.env+` file to specify the MYSQL settings to use, the phpList admin information, and other settings
+. It's suggested to grab the latest config file for phpList and put it somewhere on the host system and use a volume to map it to `+/etc/phplist/config.php+` inside the container
 +
 --
-NOTE: Not all other settings in the `+.env+` file are currently used by this container.
+NOTE: If you want to get any settings from your `+.env+` file instead of storing in the php file directly see the `+/build-container/docker/alpine-phplist-config.php+` file in this repository for an example
 --
-. It's suggested to grab the latest config file for phpList and put it somewhere on the host system and use a volume to map it to `+/etc/phplist/config.php+` inside the container
-. It's suggested that you setup a plugins and images directory on the host system and map those as volumes to `+/var/www/phpList3/public_html/images+` and `+/var/www/phpList3/lists/admin/plugins+` in the container as well.
+. It's suggested that you setup a plugins and images directory on the host system and map those as volumes to `+/var/www/phpList3/public_html/images+` and `+/var/www/phpList3/lists/admin/plugins+` in the container as well. This can be configured in the `+.env+` file.
 
 == Running the phpList Docker
 
 . To run a test copy of the software use the `+docker compose -f phplist.yml up+` command.
-
 
 == Configuration Notes
 
@@ -34,9 +33,8 @@ NOTE: Not all other settings in the `+.env+` file are currently used by this con
 * Take out hard coding of phpList version
 * Add support for changing PHP upload and memory size from outside the container
 * Auto build and push to Docker hub as Github workflow
-* Add support for mapping of the phplist config, images, and plugins volumes from the .env file
+* Add support for mapping of the phplist config volume from the .env file
 * Add configuration of bounce processng mailbox into the .env file
-* Store database on the host system
 
 == Related
 
