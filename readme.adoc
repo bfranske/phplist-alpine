@@ -1,0 +1,41 @@
+= phpList Alpine
+
+== Introduction
+
+This repository contains files used to build and run a copy of the phpList software on an Alpine docker image. It is a work in progress.
+
+== Building the phpList Docker image
+
+To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t alpine-phplist:3.6.14 .+`
+
+== Setting Up the phpList Docker 
+
+. Use the  `+cp .env-dist .env+` command to create a working copy of the environement setup file.
+. Edit the `+.env+` file to specify the MYSQL settings to use, the phpList admin information, and other settings
++
+--
+NOTE: Not all other settings in the `+.env+` file are currently used by this container.
+--
+. It's suggested to grab the latest config file for phpList and put it somewhere on the host system and use a volume to map it to `+/etc/phplist/config.php+` inside the container
+. It's suggested that you setup a plugins and images directory on the host system and map those as volumes to `+/var/www/phpList3/public_html/images+` and `+/var/www/phpList3/lists/admin/plugins+` in the container as well.
+
+== Running the phpList Docker
+
+. To run a test copy of the software use the `+docker compose -f phplist.yml up+` command.
+
+
+== Configuration Notes
+
+. Cron is already setup with a queue runner and bounce processor in the container
+
+== Future Work
+
+* Create instrucitons for using nginx as a reverse proxy in front
+* Take out hard coding of phpList version
+* Add support for changing PHP upload and memory size from outside the container
+* Auto build and push to Docker hub as Github workflow
+* Add support for mapping of the phplist config, images, and plugins volumes from the .env file
+
+== Related
+
+This is based on the https://github.com/phpList/phplist-docker/[phplist-docker] project and the Dockerfile of the https://github.com/phpList/phplist3[phpList] project. These are based on a Debian container though and are quite large and heavy.
