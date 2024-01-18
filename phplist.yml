@@ -24,6 +24,7 @@ services:
        PHPLISTINIT: ${INITIALISE_PHPLIST:-1}
        APIACCESS: ${API_ACCESS_ENABLED:-0}
        ALLOW_ATTACHMENTS: ${ALLOW_ATTACHMENTS:-0}
+       MANUALLY_PROCESS_BOUNCES: ${MANUALLY_PROCESS_BOUNCES:-0}
        bounce_mailbox_host: ${bounce_mailbox_host}
        bounce_mailbox_user: ${bounce_mailbox_user}
        bounce_mailbox_password: ${bounce_mailbox_password}
