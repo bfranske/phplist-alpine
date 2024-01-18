@@ -47,6 +47,11 @@ if [ "$APIACCESS" = 1 ]; then
     rm -rf /var/www/phpList3/public_html/lists/base/var/cache
 fi
 
+if [ "$OAUTH2_CONFIG" = 1 ]; then
+    echo "Enabling OAUTH2 Cron Job"
+    grep -qxF '*/5 * * * * /usr/bin/phplist -p processbouncesoauth2 -m OAuth2' /etc/crontabs/root || echo '*/5 * * * * /usr/bin/phplist -p processbouncesoauth2 -m OAuth2' >> /etc/crontabs/root
+fi
+
 touch /entrypointhasrunonce
 
 crond

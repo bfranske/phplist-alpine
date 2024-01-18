@@ -35,3 +35,16 @@ $addonsUpdater = [
 $updaterConfig = [
     'work' => '/var/tmp/phplistupdate',
 ];
+
+if(getenv('OAUTH2_CONFIG')){
+    // for OAuth2 plugin
+    if (isset($_GET['page']) && $_GET['page'] == 'authorise' && $_GET['pi'] == 'OAuth2') {
+        ini_set('session.name', 'phpListSession');
+        setcookie(
+            'phpListSession',
+            $_COOKIE['phpListSession'],
+            ['expires' => 0, 'path' => '/', 'secure' => true, 'httponly' => true, 'samesite' => 'None']
+        );
+        session_start();
+    }
+}
