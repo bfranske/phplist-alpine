@@ -10,14 +10,14 @@ $MANUALLY_PROCESS_BOUNCES = getenv('MANUALLY_PROCESS_BOUNCES');
 if(getenv('message_envelope')){
     $message_envelope = getenv('message_envelope');
 }
-$bounce_protocol = 'pop';
-$bounce_mailbox_host = 'localhost';
-$bounce_mailbox_user = 'popuser';
-$bounce_mailbox_password = 'password';
-$bounce_mailbox_port = '110/pop3/notls';
-$bounce_mailbox_purge = 1;
-$bounce_mailbox_purge_unprocessed = 1;
-$bounce_unsubscribe_threshold = 5;
+$bounce_protocol = getenv('bounce_protocol');
+$bounce_mailbox_host = getenv('bounce_mailbox_host');
+$bounce_mailbox_user = getenv('bounce_mailbox_user');
+$bounce_mailbox_password = getenv('bounce_mailbox_password');
+$bounce_mailbox_port = getenv('bounce_mailbox_port');
+$bounce_mailbox_purge = getenv('bounce_mailbox_purge');
+$bounce_mailbox_purge_unprocessed = getenv('bounce_mailbox_purge_unprocessed');
+$bounce_unsubscribe_threshold = getenv('bounce_unsubscribe_threshold');
 define('PHPMAILERHOST', $mailhost);
 define('TEST', 0);
 define('HASH_ALGO', 'sha256');
