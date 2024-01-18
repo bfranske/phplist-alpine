@@ -32,6 +32,7 @@ services:
        bounce_mailbox_purge: ${bounce_mailbox_purge}
        bounce_mailbox_purge_unprocessed: ${bounce_mailbox_purge_unprocessed}
        bounce_unsubscribe_threshold: ${bounce_unsubscribe_threshold}
+       message_envelope: ${message_envelope}
 
 volumes:
     images:

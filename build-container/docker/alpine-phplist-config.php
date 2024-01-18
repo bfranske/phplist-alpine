@@ -7,6 +7,9 @@ $database_password = getenv('DB_PASSWORD');
 $mailhost = getenv('MAILHOST');
 $allow_attachments = getenv('ALLOW_ATTACHMENTS');
 $MANUALLY_PROCESS_BOUNCES = getenv('MANUALLY_PROCESS_BOUNCES');
+if(getenv('message_envelope')){
+    $message_envelope = getenv('message_envelope');
+}
 $bounce_protocol = 'pop';
 $bounce_mailbox_host = 'localhost';
 $bounce_mailbox_user = 'popuser';
