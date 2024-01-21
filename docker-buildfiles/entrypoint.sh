@@ -19,6 +19,15 @@ echo /usr/bin/php83 /var/www/phpList3/public_html/lists/admin/index.php -c /etc/
 exec 1>&6 6>&-
 chmod 755 /usr/bin/phplist
 
+#Things to do only the first time this entrypoint runs
+if [ ! -f /phplist-docker-data/entrypointrunonce ]; then
+    # These things are only ever done once as the /phplist-docker-data/ directory persists on a docker volume
+
+    touch /phplist-docker-data/entrypointrunonce
+fi
+
+# Things to do everytime the container is launched
+
 ## wait for the DB container, but not forever
 UNCONNECTED=$(phplist | grep "Cannot connect")
 COUNT=1
@@ -52,8 +61,7 @@ if [ "$OAUTH2_CONFIG" = 1 ]; then
     grep -qxF '*/5 * * * * /usr/bin/phplist -p processbouncesoauth2 -m OAuth2' /etc/crontabs/root || echo '*/5 * * * * /usr/bin/phplist -p processbouncesoauth2 -m OAuth2' >> /etc/crontabs/root
 fi
 
-touch /entrypointhasrunonce
-
+cat /phplist-crontab >> /etc/crontabs/root
 crond
 echo $(phplist --version) READY
 /usr/sbin/httpd -D FOREGROUND

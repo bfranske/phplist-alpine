@@ -23,7 +23,11 @@ RUN apk --no-cache --update \
     php83-xsl \
     bash \
     wget \
+    runuser \
     && mkdir -p /var/www/phpList3
+
+#Setup php command
+RUN ln -s /usr/bin/php83 /usr/bin/php
 
 RUN rm -rf /var/www/phpList3 && mkdir -p /var/www/phpList3
 RUN rm -rf /etc/phplist && mkdir /etc/phplist
@@ -35,23 +39,24 @@ RUN wget https://downloads.sourceforge.net/project/phplist/phplist/3.6.14/phplis
 RUN tar zxf phplist-3.6.14.tgz
 RUN mv /phplist-3.6.14/* /var/www/phpList3/
 RUN rm -rf /phplist-3.6.14/
+RUN chown -R apache:apache /var/www/phpList3
 
 RUN cp /var/www/phpList3/docker/security.conf /etc/apache2/conf.d/
-COPY docker/alpine-apache-phplist.conf /etc/apache2/conf.d/
-COPY docker/alpine-phplist-config.php /etc/phplist/config.php
-COPY docker/alpine-phplist-crontab /alpine-phplist-crontab
-RUN cat /alpine-phplist-crontab >> /etc/crontabs/root
+COPY docker-buildfiles/phplist-apache.conf /etc/apache2/conf.d/
+COPY docker-buildfiles/phplist-config.php /etc/phplist/config.php
+COPY docker-buildfiles/phplist-crontab /phplist-crontab
+COPY docker-buildfiles/phplist-php.ini /etc/php83/conf.d/
 
 RUN mkdir -p /var/tmp/phplistupdate && chown apache /var/tmp/phplistupdate
 
 #Enable mod rewrite
 RUN sed -i '/LoadModule rewrite_module/s/^#//g' /etc/apache2/httpd.conf
 
-COPY docker/alpine-entrypoint.sh /
-RUN chmod u+x /alpine-entrypoint.sh
+COPY docker-buildfiles/entrypoint.sh /
+RUN chmod u+x /entrypoint.sh
 
 EXPOSE 80
 
 HEALTHCHECK CMD wget -q --no-cache --spider localhost
 
-ENTRYPOINT ["/alpine-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

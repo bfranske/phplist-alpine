@@ -8,6 +8,10 @@ This repository contains files used to build and run a copy of the phpList softw
 
 . To build a Docker image containing Apache, PHP, and the phpList software run the command `+docker build -t phplist-alpine:3.6.14 .+`
 . If you need to remove previously built images and containers all at once use the command `+docker system prune -a+` but be careful as this will remove everything (not just phplist-alpine)!
++
+--
+NOTE: The docker volumes which hold your images, plugins, and other persistant data are stored separately and this prune command will not remove them. The `+docker volumes prune -a+` command will but be careful as this will remove volumes for other containers too (not just phplist-alpine)! If you want to be more surgical about what volumes you are removing the `+docker volumes ls+` command will list them and the `+docker volumes rm+` command can remove them.
+--
 
 == Setting Up the phpList Docker 
 
@@ -16,9 +20,8 @@ This repository contains files used to build and run a copy of the phpList softw
 . It's suggested to grab the latest config file for phpList and put it somewhere on the host system and use a volume to map it to `+/etc/phplist/config.php+` inside the container
 +
 --
-NOTE: If you want to get any settings from your `+.env+` file instead of storing in the php file directly see the `+/build-container/docker/alpine-phplist-config.php+` file in this repository for an example
+NOTE: If you want to get any settings from your `+.env+` file instead of storing in the php file directly see the `+/docker-buildfiles/phplist-config.php+` file in this repository for an example.
 --
-. It's suggested that you setup a plugins and images directory on the host system and map those as volumes to `+/var/www/phpList3/public_html/images+` and `+/var/www/phpList3/lists/admin/plugins+` in the container as well. This can be configured in the `+.env+` file.
 
 == Running the phpList Docker
 

@@ -5,8 +5,9 @@ services:
      container_name: phplist-alpine
      image: phplist-alpine:3.6.14
      volumes:
-       - ${IMAGES:-images}:/var/www/phpList3/public_html/images
-       - ${PLUGINS:-plugins}:/var/www/phpList3/public_html/lists/admin/plugins
+       - images:/var/www/phpList3/public_html/images
+       - plugins:/var/www/phpList3/public_html/lists/admin/plugins
+       - docker-data:/phplist-docker-data/
      ports:
        - "${PORT:-8000}:80"
      restart: unless-stopped
@@ -39,3 +40,4 @@ services:
 volumes:
     images:
     plugins:
+    docker-data:
