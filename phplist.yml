@@ -1,41 +1,53 @@
 version: '3.8'
 
 services:
-   phplist:
-     container_name: phplist-alpine
-     image: phplist-alpine:3.6.14
-     volumes:
-       - images:/var/www/phpList3/public_html/images
-       - plugins:/var/www/phpList3/public_html/lists/admin/plugins
-       - docker-data:/phplist-docker-data/
-     ports:
-       - "${PORT:-8000}:80"
-     restart: unless-stopped
-     environment:
-       DB_HOST: ${MYSQL_HOST}
-       DB_USER: ${MYSQL_USER}
-       DB_PASSWORD: ${MYSQL_PASSWORD}
-       DB_NAME: ${MYSQL_DATABASE}
-       ADMIN_NAME: ${PHPLIST_ADMINNAME}
-       ADMIN_PASSWORD: ${PHPLIST_ADMINPASSWORD}
-       ADMIN_EMAIL: ${PHPLIST_ADMINEMAIL}
-       HOSTNAME: ${HOSTNAME}
-       PORT: ${PORT}
-       MAILHOST: ${MAILHOST}
-       PHPLISTINIT: ${INITIALISE_PHPLIST:-1}
-       APIACCESS: ${API_ACCESS_ENABLED:-0}
-       ALLOW_ATTACHMENTS: ${ALLOW_ATTACHMENTS:-0}
-       MANUALLY_PROCESS_BOUNCES: ${MANUALLY_PROCESS_BOUNCES:-0}
-       bounce_protocol: ${bounce_protocol}
-       bounce_mailbox_host: ${bounce_mailbox_host}
-       bounce_mailbox_user: ${bounce_mailbox_user}
-       bounce_mailbox_password: ${bounce_mailbox_password}
-       bounce_mailbox_port: ${bounce_mailbox_port}
-       bounce_mailbox_purge: ${bounce_mailbox_purge}
-       bounce_mailbox_purge_unprocessed: ${bounce_mailbox_purge_unprocessed}
-       bounce_unsubscribe_threshold: ${bounce_unsubscribe_threshold}
-       message_envelope: ${message_envelope}
-       OAUTH2_CONFIG: ${OAUTH2_CONFIG:-0}
+  phplist:
+    container_name: phplist-alpine
+    image: phplist-alpine:3.6.14
+    volumes:
+      - images:/var/www/phpList3/public_html/images
+      - plugins:/var/www/phpList3/public_html/lists/admin/plugins
+      - docker-data:/phplist-docker-data/
+    ports:
+      - "${PORT:-8000}:80"
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${MYSQL_HOST}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      ADMIN_NAME: ${PHPLIST_ADMINNAME}
+      ADMIN_PASSWORD: ${PHPLIST_ADMINPASSWORD}
+      ADMIN_EMAIL: ${PHPLIST_ADMINEMAIL}
+      HOSTNAME: ${HOSTNAME}
+      PORT: ${PORT}
+      MAILHOST: ${MAILHOST}
+      PHPLISTINIT: ${INITIALISE_PHPLIST:-1}
+      APIACCESS: ${API_ACCESS_ENABLED:-0}
+      ALLOW_ATTACHMENTS: ${ALLOW_ATTACHMENTS:-0}
+      MANUALLY_PROCESS_BOUNCES: ${MANUALLY_PROCESS_BOUNCES:-0}
+      bounce_protocol: ${bounce_protocol}
+      bounce_mailbox_host: emailproxy
+      bounce_mailbox_user: ${bounce_mailbox_user}
+      bounce_mailbox_password: ${bounce_mailbox_password}
+      bounce_mailbox_port: 1993
+      bounce_mailbox_purge: ${bounce_mailbox_purge}
+      bounce_mailbox_purge_unprocessed: ${bounce_mailbox_purge_unprocessed}
+      bounce_unsubscribe_threshold: ${bounce_unsubscribe_threshold}
+      message_envelope: ${message_envelope}
+      OAUTH2_CONFIG: ${OAUTH2_CONFIG:-0}
+  emailproxy:
+    image: blacktirion/email-oauth2-proxy-docker # ghcr.io optional. this is published on both Docker Hub and Github Container Repository
+    container_name: emailproxy
+    volumes:
+      ./emailproxyconf/:/config
+    ports:
+      1993:1993
+    environment:
+      LOGFILE: true
+      DEBUG: true
+      CACHE_STORE: /config/credstore.config
+      LOCAL_SERVER_AUTH: false #Optional
 
 volumes:
     images:
