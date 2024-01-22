@@ -40,7 +40,7 @@ services:
     image: blacktirion/email-oauth2-proxy-docker # ghcr.io optional. this is published on both Docker Hub and Github Container Repository
     container_name: emailproxy
     volumes:
-      ./emailproxyconf/:/config
+      - ./emailproxyconf/:/config
     ports:
       - 1993:1993
       - 1995:1995
