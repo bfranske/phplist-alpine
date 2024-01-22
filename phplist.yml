@@ -42,7 +42,8 @@ services:
     volumes:
       ./emailproxyconf/:/config
     ports:
-      1993:1993
+      - 1993:1993
+      - 1995:1995
     environment:
       LOGFILE: true
       DEBUG: true
